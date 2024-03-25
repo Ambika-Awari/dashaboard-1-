@@ -1,0 +1,72 @@
+{
+    "lenses": {
+      "0": {
+        "order": 0,
+        "parts": {
+          "0": {
+            "position": {
+              "x": 6,
+              "y": 0,
+              "colSpan": 6,
+              "rowSpan": 6
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "partTitle",
+                  "value": "rg-univ",
+                  "isOptional": true
+                },
+                {
+                  "name": "query",
+                  "value": "// Run query to see results.\n(resourcecontainers|where type in~ ('microsoft.resources/subscriptions/resourcegroups'))\n| where type =~ 'microsoft.resources/subscriptions/resourcegroups'\n| extend status = case(\n    (properties.provisioningState =~ 'accepted'), 'Creating',\n    (properties.provisioningState =~ 'deleted'), 'Deleted',\n    (properties.provisioningState =~ 'deleting'), 'Deleting',\n    (properties.provisioningState =~ 'failed'), 'Failed',\n    (properties.provisioningState =~ 'movingresources'), 'Moving Resources',\n    properties.provisioningState)\n| project id,name,type,location,subscriptionId,resourceGroup,kind,tags,extendedLocation, status\n| extend subscriptionDisplayName=case(subscriptionId =~ '6e977b0d-998c-42d7-97ed-dd70040cff12','Microsoft Azure Sponsorship',subscriptionId)\n| extend locationDisplayName=case(location =~ 'eastus','East US',location =~ 'eastus2','East US 2',location =~ 'southcentralus','South Central US',location =~ 'westus2','West US 2',location =~ 'westus3','West US 3',location =~ 'australiaeast','Australia East',location =~ 'southeastasia','Southeast Asia',location =~ 'northeurope','North Europe',location =~ 'swedencentral','Sweden Central',location =~ 'uksouth','UK South',location =~ 'westeurope','West Europe',location =~ 'centralus','Central US',location =~ 'southafricanorth','South Africa North',location =~ 'centralindia','Central India',location =~ 'eastasia','East Asia',location =~ 'japaneast','Japan East',location =~ 'koreacentral','Korea Central',location =~ 'canadacentral','Canada Central',location =~ 'francecentral','France Central',location =~ 'germanywestcentral','Germany West Central',location =~ 'norwayeast','Norway East',location =~ 'polandcentral','Poland Central',location =~ 'switzerlandnorth','Switzerland North',location =~ 'uaenorth','UAE North',location =~ 'brazilsouth','Brazil South',location =~ 'qatarcentral','Qatar Central',location =~ 'centralusstage','Central US (Stage)',location =~ 'eastusstage','East US (Stage)',location =~ 'eastus2stage','East US 2 (Stage)',location =~ 'northcentralusstage','North Central US (Stage)',location =~ 'southcentralusstage','South Central US (Stage)',location =~ 'westusstage','West US (Stage)',location =~ 'westus2stage','West US 2 (Stage)',location =~ 'asia','Asia',location =~ 'asiapacific','Asia Pacific',location =~ 'australia','Australia',location =~ 'brazil','Brazil',location =~ 'canada','Canada',location =~ 'europe','Europe',location =~ 'france','France',location =~ 'germany','Germany',location =~ 'global','Global',location =~ 'india','India',location =~ 'japan','Japan',location =~ 'korea','Korea',location =~ 'norway','Norway',location =~ 'singapore','Singapore',location =~ 'southafrica','South Africa',location =~ 'switzerland','Switzerland',location =~ 'uae','United Arab Emirates',location =~ 'uk','United Kingdom',location =~ 'unitedstates','United States',location =~ 'unitedstateseuap','United States EUAP',location =~ 'eastasiastage','East Asia (Stage)',location =~ 'southeastasiastage','Southeast Asia (Stage)',location =~ 'brazilus','Brazil US',location =~ 'northcentralus','North Central US',location =~ 'westus','West US',location =~ 'jioindiawest','Jio India West',location =~ 'westcentralus','West Central US',location =~ 'southafricawest','South Africa West',location =~ 'australiacentral','Australia Central',location =~ 'australiacentral2','Australia Central 2',location =~ 'australiasoutheast','Australia Southeast',location =~ 'japanwest','Japan West',location =~ 'jioindiacentral','Jio India Central',location =~ 'koreasouth','Korea South',location =~ 'southindia','South India',location =~ 'westindia','West India',location =~ 'canadaeast','Canada East',location =~ 'francesouth','France South',location =~ 'germanynorth','Germany North',location =~ 'norwaywest','Norway West',location =~ 'switzerlandwest','Switzerland West',location =~ 'ukwest','UK West',location =~ 'uaecentral','UAE Central',location =~ 'brazilsoutheast','Brazil Southeast',location)\n| extend tagsLowerCase = todynamic(tolower(tostring(tags)))\n| where (type !~ ('dell.storage/filesystems'))\n| where (type !~ ('informatica.datamanagement/organizations'))\n| where (type !~ ('paloaltonetworks.cloudngfw/globalrulestacks'))\n| where (type !~ ('solarwinds.observability/organizations'))\n| where (type !~ ('microsoft.azureactivedirectory/ciamdirectories'))\n| where (type !~ ('microsoft.agfoodplatform/farmbeats'))\n| where (type !~ ('microsoft.anybuild/clusters'))\n| where (type !~ ('microsoft.cdn/profiles/customdomains'))\n| where (type !~ ('microsoft.cdn/profiles/afdendpoints'))\n| where (type !~ ('microsoft.cdn/profiles/origingroups/origins'))\n| where (type !~ ('microsoft.cdn/profiles/origingroups'))\n| where (type !~ ('microsoft.cdn/profiles/afdendpoints/routes'))\n| where (type !~ ('microsoft.cdn/profiles/rulesets/rules'))\n| where (type !~ ('microsoft.cdn/profiles/rulesets'))\n| where (type !~ ('microsoft.cdn/profiles/secrets'))\n| where (type !~ ('microsoft.cdn/profiles/securitypolicies'))\n| where (type !~ ('microsoft.cloudtest/accounts'))\n| where (type !~ ('microsoft.cloudtest/hostedpools'))\n| where (type !~ ('microsoft.cloudtest/images'))\n| where (type !~ ('microsoft.cloudtest/pools'))\n| where (type !~ ('microsoft.codesigning/codesigningaccounts'))\n| where (type !~ ('microsoft.kubernetesconfiguration/extensions'))\n| where (type !~ ('microsoft.containerservice/managedclusters/microsoft.kubernetesconfiguration/extensions'))\n| where (type !~ ('microsoft.kubernetes/connectedclusters/microsoft.kubernetesconfiguration/namespaces'))\n| where (type !~ ('microsoft.containerservice/managedclusters/microsoft.kubernetesconfiguration/namespaces'))\n| where (type !~ ('microsoft.kubernetes/connectedclusters/microsoft.kubernetesconfiguration/fluxconfigurations'))\n| where (type !~ ('microsoft.containerservice/managedclusters/microsoft.kubernetesconfiguration/fluxconfigurations'))\n| where (type !~ ('microsoft.portalservices/extensions/deployments'))\n| where (type !~ ('microsoft.portalservices/extensions'))\n| where (type !~ ('microsoft.portalservices/extensions/slots'))\n| where (type !~ ('microsoft.portalservices/extensions/versions'))\n| where (type !~ ('microsoft.azuredatatransfer/connections'))\n| where (type !~ ('microsoft.azuredatatransfer/connections/flows'))\n| where (type !~ ('microsoft.azuredatatransfer/pipelines'))\n| where (type !~ ('microsoft.databasewatcher/watchers'))\n| where (type !~ ('microsoft.datacollaboration/workspaces'))\n| where (type !~ ('microsoft.deviceregistry/devices'))\n| where (type !~ ('microsoft.hdinsight/clusterpools/clusters'))\n| where (type !~ ('microsoft.hdinsight/clusterpools'))\n| where (type !~ ('microsoft.kubernetes/connectedclusters/microsoft.kubernetesconfiguration/extensions'))\n| where (type !~ ('microsoft.network/virtualhubs')) or ((kind =~ ('routeserver')))\n| where (type !~ ('microsoft.metaverse/metaverses'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/chambers'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/chambers/connectors'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/chambers/files'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/chambers/filerequests'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/chambers/licenses'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/chambers/storages'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/chambers/workloads'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches/sharedstorages'))\n| where (type !~ ('microsoft.modsimworkbench/workbenches'))\n| where (type !~ ('microsoft.insights/diagnosticsettings'))\n| where not((type =~ ('microsoft.network/serviceendpointpolicies')) and ((kind =~ ('internal'))))\n| where (type !~ ('microsoft.openlogisticsplatform/workspaces'))\n| where (type !~ ('microsoft.scom/managedinstances'))\n| where (type !~ ('microsoft.orbital/edgesites'))\n| where (type !~ ('microsoft.orbital/groundstations'))\n| where (type !~ ('microsoft.orbital/l2connections'))\n| where (type !~ ('microsoft.recommendationsservice/accounts/modeling'))\n| where (type !~ ('microsoft.recommendationsservice/accounts/serviceendpoints'))\n| where (type !~ ('microsoft.recoveryservicesbvtd/vaults'))\n| where (type !~ ('microsoft.recoveryservicesbvtd2/vaults'))\n| where (type !~ ('microsoft.recoveryservicesintd/vaults'))\n| where (type !~ ('microsoft.recoveryservicesintd2/vaults'))\n| where (type !~ ('microsoft.deploymentmanager/rollouts'))\n| where (type !~ ('microsoft.datareplication/replicationvaults'))\n| where (type !~ ('microsoft.storage/storagetasks'))\n| where not((type =~ ('microsoft.synapse/workspaces/sqlpools')) and ((kind =~ ('v3'))))\n| where (type !~ ('microsoft.mission/catalogs'))\n| where (type !~ ('microsoft.mission/communities'))\n| where (type !~ ('microsoft.mission/virtualenclaves/endpoints'))\n| where (type !~ ('microsoft.mission/externalconnections'))\n| where (type !~ ('microsoft.mission/internalconnections'))\n| where (type !~ ('microsoft.mission/virtualenclaves'))\n| where (type !~ ('microsoft.mission/virtualenclaves/workloads'))\n| where (type !~ ('microsoft.windowspushnotificationservices/registrations'))\n| where not((type =~ ('microsoft.sql/servers/databases')) and ((kind in~ ('system','v2.0,system','v12.0,system','v12.0,user,datawarehouse,gen2,analytics'))))\n| where not((type =~ ('microsoft.sql/servers')) and ((kind =~ ('v12.0,analytics'))))\n| where (tostring(name) contains ('rg-univ')) or (tostring(subscriptionDisplayName) contains ('rg-univ')) or (tostring(locationDisplayName) contains ('rg-univ')) or (tostring(tagsLowerCase['hidden-title']) contains ('rg-univ'))\n| project name,subscriptionDisplayName,locationDisplayName,id,type,kind,location,subscriptionId,resourceGroup,tags,extendedLocation,tagsLowerCase['hidden-title']\n| sort by (tolower(tostring(name))) asc",
+                  "isOptional": true
+                },
+                {
+                  "name": "chartType",
+                  "isOptional": true
+                },
+                {
+                  "name": "isShared",
+                  "isOptional": true
+                },
+                {
+                  "name": "queryId",
+                  "value": "/subscriptions/6e977b0d-998c-42d7-97ed-dd70040cff12/resourceGroups/resource-graph-queries/providers/Microsoft.ResourceGraph/queries/rg-univ",
+                  "isOptional": true
+                },
+                {
+                  "name": "formatResults",
+                  "value": true,
+                  "isOptional": true
+                },
+                {
+                  "name": "queryScope",
+                  "value": {
+                    "scope": 0,
+                    "values": []
+                  },
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/HubsExtension/PartType/ArgQueryGridTile",
+              "settings": {}
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "model": {
+        "timeRange": {
+          "value": {
+            "relative": {
+              "duration": 24,
+              "timeUnit": 1
+            }
+          },
+          "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+        }
+      }
+    }
+  }
